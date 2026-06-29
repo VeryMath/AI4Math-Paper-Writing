@@ -1,111 +1,105 @@
-# Paper Writing
+<div align="center">
 
-Chinese guide: [README.zh-CN.md](README.zh-CN.md)
+# AI4Math · Paper Writing
 
-`paper-writing` is an AI4Math Skill adapter for source-grounded mathematical
-paper writing. It helps a coding agent draft, revise, and audit paper text from
-provided notes, proofs, experiment logs, references, and reviewer feedback.
-It also supports early-stage paper skeletons and final submission readiness
-checks without splitting unsupported-claim review into a separate public Skill.
+Source-grounded workflows for mathematical paper drafting, proof-obligation
+review, and submission-ready LaTeX checks.
 
-This package intentionally exposes one public writing workflow. Unsupported
-claim checks are part of the writing review step; there is no separate public
-unsupported-claim-review Skill package.
+[中文说明](README.zh-CN.md) · [Contributors](CONTRIBUTORS.md) · [Skill packages](#skill-packages) · [Installation](#installation) · [Quick start](#quick-start) · [Security model](#security-and-scope)
 
-## When To Use It
+![version](https://img.shields.io/badge/version-0.1.0-blue)
+![skills](https://img.shields.io/badge/skills-1-2ea44f)
+![license](https://img.shields.io/badge/license-MIT-green)
 
-Use this Skill when:
+</div>
 
-- drafting or revising abstracts, introductions, related work, theorem
-  exposition, experiment narratives, conclusions, or response letters;
-- turning mathematical notes, paper-reading outputs, proof artifacts, or
-  experiment logs into paper text;
-- building a rapid paper skeleton, contribution spine, section map, or result
-  dependency map before drafting prose;
-- checking a draft for unsupported claims, missing citations, overstated
-  contribution language, or unclear assumptions.
+## What This Repository Is
 
-Do not use this Skill to invent citations, theorems, experiments, numeric
-results, proof status, or author claims that are not supported by the supplied
-materials.
+This repository is the AI4Math home for mathematical paper-writing skills. It
+does not replace source evidence, proof checking, or experiment validation.
+Instead, the package under `skills/` gives coding agents a structured workflow
+for turning verified materials into paper text and review artifacts.
 
-## What It Produces
+Use the root page as the public map, then open the package-local README and
+`SKILL.md` before writing.
 
-The agent should produce the requested paper text or paper skeleton, plus
-claim-evidence notes, proof-obligation notes, unsupported-claim warnings,
-citation-needed markers, and recommended next source checks.
+## Skill Packages
 
-## Skill Entry Points
+| Package | Use it for | Start here |
+| --- | --- | --- |
+| [`paper-writing`](skills/paper-writing/) | Draft, revise, structure, and audit mathematical papers from supplied sources, including claim-evidence review, proof-obligation checks, notation checks, formula readability, and LaTeX preflight. | [`README`](skills/paper-writing/README.md) · [`SKILL`](skills/paper-writing/SKILL.md) |
 
-| File | Purpose |
-| --- | --- |
-| `SKILL.md` | top-level paper-writing workflow |
-| `skills/registry.yaml` | nested subskill routing |
-| `skills/paper-skeleton-and-logical-architecture/SKILL.md` | rapid paper skeleton, section map, and result dependency audit |
-| `skills/claim-evidence-ledger/SKILL.md` | claim-to-source evidence audit |
-| `skills/proof-obligation-and-assumption-audit/SKILL.md` | theorem assumptions, proof obligations, and external result fit |
-| `skills/notation-and-variable-consistency/SKILL.md` | notation, symbol, and variable audit |
-| `skills/formula-environment-and-readability/SKILL.md` | displayed formula and environment readability |
-| `skills/latex-build-and-layout-audit/SKILL.md` | LaTeX build, reference, citation, and layout audit |
-| `templates/` | reusable source packet, skeleton, ledger, and submission readiness templates |
-| `README.md` | English package guide |
-| `README.zh-CN.md` | Chinese package guide |
-| `agents/openai.yaml` | OpenAI/Codex skill metadata |
+## Installation
+
+The recommended path is AI-assisted installation: ask your coding agent to clone
+or update this repository, read the Skill instructions, install the entrypoint,
+and verify discovery.
+
+```text
+Please install this AI4Math Skill for me.
+
+Repository: https://github.com/VeryMath/AI4Math-Paper-Writing.git
+Branch: main
+Skill paths:
+- skills/paper-writing
+
+Steps:
+1. Clone or update the repository locally.
+2. Read README.md, SKILL.md, and the target Skill entrypoint.
+3. If this environment supports local Skill discovery, link the directory that contains SKILL.md into the local skills directory.
+4. Keep sibling support directories in place when the Skill depends on them.
+5. Verify that the installed Skill is discoverable.
+6. Tell me the installed path, whether a restart is needed, and give me one test prompt.
+```
+
+Manual fallback for Codex-style local discovery:
+
+```bash
+git clone https://github.com/VeryMath/AI4Math-Paper-Writing.git
+cd AI4Math-Paper-Writing
+mkdir -p ~/.codex/skills
+ln -s "$PWD/skills/paper-writing" ~/.codex/skills/paper-writing
+```
+
+If your agent uses a different local Skill directory, replace `~/.codex/skills`
+with that configured path.
 
 ## Quick Start
 
-```text
-Use this repository's paper-writing workflow.
-
-Read:
-- SKILL.md
-- templates/source-packet.md if the source packet is not already organized
-- skills/registry.yaml if the task needs skeleton, proof, claim, notation, formula, or LaTeX checks
-
-Goal:
-Draft the introduction for this mathematical paper.
-
-Target:
-<notes, theorem statements, related papers, experiment logs, or draft file>
-
-Constraints:
-- inspect the source packet first;
-- do not invent citations or results;
-- mark unsupported claims explicitly;
-- return the draft plus claim-evidence notes.
-```
-
-## How To Interact
-
-The normal interface is conversation with a coding agent:
-
-```text
-human goal
-  -> agent reads SKILL.md
-  -> agent loads a focused subskill if needed
-  -> agent inventories sources
-  -> agent builds a skeleton if the paper structure is not stable
-  -> agent proposes a writing plan
-  -> human replies approve / revise / reject / skip
-  -> agent drafts or revises
-  -> agent reports evidence gaps and next checks
-```
-
-Use these checkpoint words:
-
-| Decision | Meaning |
-| --- | --- |
-| `approve` | run the proposed next step |
-| `revise` | update the plan before running |
-| `reject` | stop this path |
-| `skip` | skip this phase |
-| `stop` | end the session and summarize state |
-
-## Maintainer Checks
-
-Run the root validation suite from the organizer repository:
+Clone the repository and open the package:
 
 ```bash
-python3 -m unittest discover -s tests -v
-python3 scripts/validate_skill_repo.py
+git clone https://github.com/VeryMath/AI4Math-Paper-Writing.git
+cd AI4Math-Paper-Writing
 ```
+
+Start with:
+
+```text
+skills/paper-writing/SKILL.md
+```
+
+## Repository Layout
+
+```text
+AI4Math-Paper-Writing/
+├── README.md
+├── README.zh-CN.md
+├── SKILL.md
+└── skills/
+    └── paper-writing/
+        ├── SKILL.md
+        ├── skills/
+        └── templates/
+```
+
+## Validation
+
+There is no root build step. When changing the package, validate its
+`SKILL.md`, README links, templates, and any package-local instructions.
+
+## Security and Scope
+
+Do not commit private drafts, unpublished reviewer material, confidential
+experiment logs, API keys, `.env` files, or generated caches. Public examples
+and templates should be source-neutral and safe to redistribute.

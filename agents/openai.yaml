@@ -1,3 +1,0 @@
-display_name: "Paper Writing"
-short_description: "Draft, structure, and audit source-grounded mathematical papers."
-default_prompt: "Use $paper-writing to draft, structure, or audit a mathematical paper from my provided notes, proofs, logs, references, or reviewer comments; inventory the source packet first, use templates and focused subskills when skeleton, proof-obligation, claim, notation, formula, or LaTeX checks are needed, and mark unsupported statements instead of inventing results."

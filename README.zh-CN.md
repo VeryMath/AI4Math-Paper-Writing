@@ -1,101 +1,94 @@
-# Paper Writing
+<div align="center">
 
-English guide: [README.md](README.md)
+# AI4Math · 论文写作
 
-`paper-writing` 是面向数学论文写作的 AI4Math Skill adapter。它让 coding
-agent 基于已经提供的笔记、证明材料、实验日志、参考文献和审稿意见，完成论文
-段落起草、修改和证据审查。
-它也覆盖早期论文骨架和最终提交就绪检查，但不把不受支持表述审查拆成单独公开 Skill。
+面向数学论文起草、证明义务审查与 LaTeX 投稿就绪检查的来源证据驱动工作流。
 
-这个 package 只保留一个公开的论文写作 workflow。对不受支持表述的检查属于写作
-审查步骤，不单独拆成另一个公开 Skill。
+[English](README.md) · [贡献者](CONTRIBUTORS.md) · [技能包](#技能包) · [安装](#安装) · [快速开始](#快速开始) · [安全边界](#安全边界)
 
-## 什么时候用
+![version](https://img.shields.io/badge/version-0.1.0-blue)
+![skills](https://img.shields.io/badge/skills-1-2ea44f)
+![license](https://img.shields.io/badge/license-MIT-green)
 
-适合用于：
+</div>
 
-- 起草或修改摘要、引言、相关工作、定理解释、实验叙述、结论或回复审稿人；
-- 把论文精读结果、证明草稿、实验日志或项目笔记整理成论文文本；
-- 在写正文前搭建 rapid paper skeleton、contribution spine、section map 或
-  result dependency map；
-- 检查草稿中是否有缺引用、缺证据、夸大贡献或条件表述不清的问题。
+## 这个仓库是什么
 
-不适合用于凭空生成引用、定理、实验结果、数值、证明状态或作者观点。
+这个仓库是 AI4Math 论文写作方向的技能入口。它不替代来源证据、证明检查或实验验证；它提供的是一个让 coding agent 基于已给材料起草、修改和审查数学论文文本的结构化 workflow。
 
-## 输出什么
+根 README 负责说明地图；真正执行任务时，请进入 `skills/paper-writing/` 并阅读包内 README 和 `SKILL.md`。
 
-agent 应输出目标论文文本或论文骨架，并附上 claim-evidence 说明、proof
-obligation notes、不受支持的表述、需要补引用的位置，以及下一步需要核查的来源。
+## 技能包
 
-## Skill 入口
+| 包 | 适用任务 | 入口 |
+| --- | --- | --- |
+| [`paper-writing`](skills/paper-writing/) | 基于已提供来源起草、修改、组织和审查数学论文，包括 claim-evidence 审查、证明义务检查、符号一致性、公式可读性和 LaTeX 投稿预检。 | [`README`](skills/paper-writing/README.md) · [`SKILL`](skills/paper-writing/SKILL.md) |
 
-| 文件 | 作用 |
-| --- | --- |
-| `SKILL.md` | 顶层论文写作 workflow |
-| `skills/registry.yaml` | 嵌套 subskill 路由 |
-| `skills/paper-skeleton-and-logical-architecture/SKILL.md` | rapid paper skeleton、section map 和 result dependency 审查 |
-| `skills/claim-evidence-ledger/SKILL.md` | claim 到来源证据的审查 |
-| `skills/proof-obligation-and-assumption-audit/SKILL.md` | 定理假设、证明义务和外部结果适配审查 |
-| `skills/notation-and-variable-consistency/SKILL.md` | 符号、变量、作用域和记号一致性审查 |
-| `skills/formula-environment-and-readability/SKILL.md` | 展示公式、推导和公式环境可读性 |
-| `skills/latex-build-and-layout-audit/SKILL.md` | LaTeX 编译、引用、标签、排版和提交风险审查 |
-| `templates/` | source packet、论文骨架、ledger 和提交就绪模板 |
-| `README.md` | 英文说明 |
-| `README.zh-CN.md` | 中文说明 |
-| `agents/openai.yaml` | OpenAI/Codex skill 元数据 |
+## 安装
+
+推荐方式是 AI 自动安装：让你的 coding agent 自己 clone 或更新仓库、读取 Skill 说明、安装入口并验证 discovery。
+
+```text
+请帮我安装这个 AI4Math Skill。
+
+仓库：https://github.com/VeryMath/AI4Math-Paper-Writing.git
+分支：main
+Skill 路径：
+- skills/paper-writing
+
+请执行：
+1. 本地 clone 或更新仓库。
+2. 读取 README.md、SKILL.md 以及目标 Skill 入口。
+3. 如果当前环境支持本地 Skill discovery，把包含 SKILL.md 的目录链接到本地 skills 目录。
+4. 如果 Skill 依赖相邻支持目录，请保留这些 sibling 目录。
+5. 验证安装后的 Skill 是否可被发现。
+6. 告诉我安装路径、是否需要重启 agent，并给我一个测试 prompt。
+```
+
+Codex 风格本地 discovery 的手工 fallback：
+
+```bash
+git clone https://github.com/VeryMath/AI4Math-Paper-Writing.git
+cd AI4Math-Paper-Writing
+mkdir -p ~/.codex/skills
+ln -s "$PWD/skills/paper-writing" ~/.codex/skills/paper-writing
+```
+
+如果你的 agent 使用别的本地 Skill 目录，把 `~/.codex/skills` 替换成对应配置路径。
 
 ## 快速开始
 
-```text
-Use this repository's paper-writing workflow.
-
-Read:
-- SKILL.md
-- 如果 source packet 还没整理，先读 templates/source-packet.md
-- 如果任务需要骨架、证明、claim、符号、公式或 LaTeX 检查，再读 skills/registry.yaml
-
-Goal:
-帮我写这篇数学论文的 introduction。
-
-Target:
-<笔记、定理陈述、相关论文、实验日志或草稿文件>
-
-Constraints:
-- 先检查 source packet；
-- 不要编造引用或结果；
-- 明确标记缺证据的表述；
-- 返回正文草稿和 claim-evidence notes。
-```
-
-## 协作方式
-
-```text
-human goal
-  -> agent 读取 SKILL.md
-  -> agent 按需加载 focused subskill
-  -> agent 清点来源材料
-  -> 如果论文结构还不稳定，agent 先搭建骨架
-  -> agent 提出写作计划
-  -> human 回复 approve / revise / reject / skip
-  -> agent 起草或修改
-  -> agent 汇报证据缺口和下一步核查
-```
-
-常用 checkpoint：
-
-| 决策词 | 含义 |
-| --- | --- |
-| `approve` | 执行 agent 提出的下一步 |
-| `revise` | 先修改计划 |
-| `reject` | 停止当前路线 |
-| `skip` | 跳过当前阶段 |
-| `stop` | 结束会话并总结状态 |
-
-## 维护检查
-
-在整理仓库根目录运行：
+克隆仓库并打开技能包：
 
 ```bash
-python3 -m unittest discover -s tests -v
-python3 scripts/validate_skill_repo.py
+git clone https://github.com/VeryMath/AI4Math-Paper-Writing.git
+cd AI4Math-Paper-Writing
 ```
+
+从这里开始：
+
+```text
+skills/paper-writing/SKILL.md
+```
+
+## 仓库结构
+
+```text
+AI4Math-Paper-Writing/
+├── README.md
+├── README.zh-CN.md
+├── SKILL.md
+└── skills/
+    └── paper-writing/
+        ├── SKILL.md
+        ├── skills/
+        └── templates/
+```
+
+## 验证
+
+这个仓库没有根级构建步骤。修改技能包后，请检查 `SKILL.md`、README 链接、模板和包内说明。
+
+## 安全边界
+
+不要提交私有草稿、未公开审稿材料、保密实验日志、API key、`.env` 文件或生成缓存。公开示例和模板应保持来源中性，并确认可以再分发。
