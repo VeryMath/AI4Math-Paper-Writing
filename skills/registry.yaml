@@ -1,0 +1,19 @@
+skills:
+  - name: paper-skeleton-and-logical-architecture
+    path: paper-skeleton-and-logical-architecture/SKILL.md
+    purpose: Turn source materials into a paper skeleton, dependency map, and section architecture before prose drafting.
+  - name: claim-evidence-ledger
+    path: claim-evidence-ledger/SKILL.md
+    purpose: Map paper claims to proofs, citations, experiments, or explicit uncertainty.
+  - name: proof-obligation-and-assumption-audit
+    path: proof-obligation-and-assumption-audit/SKILL.md
+    purpose: Check theorem assumptions, quantifiers, dependencies, edge cases, and proof obligations before treating a result as supported.
+  - name: notation-and-variable-consistency
+    path: notation-and-variable-consistency/SKILL.md
+    purpose: Track symbols, variables, domains, scopes, and notation drift across a paper.
+  - name: formula-environment-and-readability
+    path: formula-environment-and-readability/SKILL.md
+    purpose: Improve formula environments and displayed derivations without changing mathematical meaning.
+  - name: latex-build-and-layout-audit
+    path: latex-build-and-layout-audit/SKILL.md
+    purpose: Check LaTeX build, labels, references, citations, layout warnings, and venue/arXiv risks.
